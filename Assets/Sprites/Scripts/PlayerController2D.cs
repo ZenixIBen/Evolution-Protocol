@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator anim;
 
     private Vector2 movement;
+    private bool isKnockedBack;
 
     // Called by the new Input System
     public void OnMove(InputValue value)
@@ -32,9 +33,7 @@ public class PlayerMovement : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        if (rb != null)
-
-
+        if (rb != null && isKnockedBack == false)
         {
             anim.SetFloat("horizontal", Mathf.Abs(movement.x));
             anim.SetFloat("vertical", Mathf.Abs(movement.y));
@@ -56,6 +55,13 @@ public class PlayerMovement : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+
+    public void Knockback(Transform enemy)
+    {
+        isKnockedBack = true;
+        Vector2 direction = transform.position - enemy.position;
+        rb.linearVelocity = direction;
     }
 }
 

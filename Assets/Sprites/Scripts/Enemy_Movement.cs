@@ -13,7 +13,7 @@ public class Enemy_Movement : MonoBehaviour
     public LayerMask playerLayer;
 
     private float attackCooldownTimer;
-    private int facingDirection = 2; // 2 for right, -2 for left
+    private int facingDirection = -2; // 2 for right, -2 for left
     private EnemyState enemyState;
 
 
@@ -82,6 +82,7 @@ public class Enemy_Movement : MonoBehaviour
             {
                 attackCooldownTimer = attackCooldown;
                 ChangeState(EnemyState.Attacking);
+                GetComponent<Enemy_Combat>().Attack();
             }
             if (Vector2.Distance(transform.position, Player.position) > attackRange)
             {
