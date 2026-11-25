@@ -397,6 +397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController2D
   facingDirection: 1
   attackTrigger: Attack
+  attackRange: 0.75
+  attackOffset: 0.5
   rb: {fileID: 123863139}
   anim: {fileID: 123863145}
 --- !u!114 &123863144
@@ -519,7 +521,7 @@ MonoBehaviour:
   aimDirection: {x: 1, y: 0}
   shootCooldown: 0.5
   shootTimer: 0
-  damage: 2
+  damage: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -40062,7 +40064,7 @@ Transform:
   m_GameObject: {fileID: 1018042536}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.257, y: -0.027, z: 0}
+  m_LocalPosition: {x: -0.278, y: 0.196, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41256,7 +41258,7 @@ Transform:
   m_GameObject: {fileID: 1569251292}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.259, y: -0.031, z: 0}
+  m_LocalPosition: {x: -0.265, y: 0.196, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41551,7 +41553,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0, y: 0.09}
+  m_Offset: {x: -0.01, y: 0.3}
   m_Size: {x: 0.25, y: 0.0001}
   m_Direction: 0
 --- !u!50 &1980854317
@@ -41651,7 +41653,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -22.309608, y: -19.24, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 3}
+  m_LocalScale: {x: 2, y: 2, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1569251293}
@@ -41720,7 +41722,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  maxHealth: 3
+  maxHealth: 5
 --- !u!58 &1980854323
 CircleCollider2D:
   m_ObjectHideFlags: 0
