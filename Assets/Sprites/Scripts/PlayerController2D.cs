@@ -1,9 +1,11 @@
+using System.Collections;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-   
+
     public int facingDirection = 1; // 1 for right, -1 for left
     public string attackTrigger = "Attack";
 
@@ -29,22 +31,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
         if (rb != null && isKnockedBack == false)
         {
-            anim.SetFloat("horizontal", Mathf.Abs(movement.x));
-            anim.SetFloat("vertical", Mathf.Abs(movement.y));
+            if (anim != null)
+            {
+                anim.SetFloat("horizontal", Mathf.Abs(movement.x));
+                anim.SetFloat("vertical", Mathf.Abs(movement.y));
+            }
 
-            if (horizontal > 0 && transform.localScale.x < 0 ||
-                (horizontal < 0 && transform.localScale.x > 0))
+            if (movement.x > 0 && transform.localScale.x < 0 ||
+                (movement.x < 0 && transform.localScale.x > 0))
             {
                 Flip();
             }
 
-            rb.linearVelocity = movement * StatsManager.Instance.speed;
+            if (StatsManager.Instance != null)
+            {
+                rb.linearVelocity = movement * StatsManager.Instance.speed;
+            }
         }
     }
 
@@ -57,12 +61,28 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = scale;
     }
 
-    public void Knockback(Transform enemy)
+    public void Knockback(Transform enemy, float force, float stunTime)
     {
         isKnockedBack = true;
         Vector2 direction = transform.position - enemy.position;
-        rb.linearVelocity = direction;
+        if (rb != null)
+        {
+            rb.linearVelocity = direction.normalized * force;
+            StartCoroutine(KnockbackCounter(stunTime));
+        }
+
     }
+
+
+
+    IEnumerator KnockbackCounter(float stunTime)
+    {
+        yield return new WaitForSeconds(stunTime);
+        rb.linearVelocity = Vector2.zero;
+        isKnockedBack = false;
+    }
+
+
 }
 
 

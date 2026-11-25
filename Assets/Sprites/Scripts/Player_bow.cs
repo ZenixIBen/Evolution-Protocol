@@ -39,15 +39,7 @@ public class Player_bow : MonoBehaviour
     {
         Arrow arrow = Instantiate(ArrowPrefab, LaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
         arrow.direction = aimDirection;
+        arrow.damage = damage;
         shootTimer = shootCooldown;
     }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Enemy")
-        {
-            collision.gameObject.GetComponent<PlayerHealth>().ChangeHealth(-damage);
-        }
-    }
-
 }
