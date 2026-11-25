@@ -13,23 +13,47 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
-        healthText.text = "Health: " + StatsManager.Instance.currentHealth + " / " + StatsManager.Instance.maxHealth;
+        if (StatsManager.Instance == null)
+        {
+            return;
+        }
 
-        StatsManager.Instance.currentHealth = StatsManager.Instance.maxHealth;
-        healthSlider.maxValue = StatsManager.Instance.maxHealth;
-        healthSlider.value = StatsManager.Instance.currentHealth;                   
+        StatsManager.Instance.currentHealth = Mathf.Clamp(
+            StatsManager.Instance.currentHealth,
+            0,
+            StatsManager.Instance.maxHealth);
+        UpdateHealthUI();
     }
     public void ChangeHealth(int amount)
     {
-        StatsManager.Instance.currentHealth += amount;
-        healthSlider.value = StatsManager.Instance.currentHealth;
-        healthText.text = "Health: " + StatsManager.Instance.currentHealth + " / " + StatsManager.Instance  .maxHealth;
+        if (StatsManager.Instance == null)
+        {
+            return;
+        }
 
+        StatsManager.Instance.currentHealth = Mathf.Clamp(
+            StatsManager.Instance.currentHealth + amount,
+            0,
+            StatsManager.Instance.maxHealth);
+        UpdateHealthUI();
 
-        if (StatsManager.Instance.currentHealth <= 0)
+        if (StatsManager.Instance.currentHealth == 0)
         {
             gameObject.SetActive(false);
-            healthSlider.fillRect.gameObject.SetActive(false);
+        }
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthSlider != null)
+        {
+            healthSlider.maxValue = StatsManager.Instance.maxHealth;
+            healthSlider.value = StatsManager.Instance.currentHealth;
+        }
+
+        if (healthText != null)
+        {
+            healthText.text = "Health: " + StatsManager.Instance.currentHealth + " / " + StatsManager.Instance.maxHealth;
         }
     }
 }

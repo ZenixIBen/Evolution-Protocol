@@ -292,7 +292,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 100000
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
@@ -40062,7 +40062,7 @@ Transform:
   m_GameObject: {fileID: 1018042536}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.412, y: -0.072, z: 0}
+  m_LocalPosition: {x: -0.257, y: -0.027, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41359,7 +41359,7 @@ Transform:
   m_GameObject: {fileID: 1569251292}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.412, y: -0.072, z: 0}
+  m_LocalPosition: {x: -0.259, y: -0.031, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41729,8 +41729,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.007484436, y: -0.013421059}
-  m_Size: {x: 0.28190613, y: 0.29141617}
+  m_Offset: {x: -0, y: 0.09}
+  m_Size: {x: 0.25, y: 0.0001}
   m_Direction: 0
 --- !u!50 &1980854317
 Rigidbody2D:
@@ -41808,7 +41808,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 153223899919180694, guid: 1af1bb158a965ed42931fc1fcb3b6af6, type: 3}
+  m_Sprite: {fileID: -8969849096663141580, guid: a122c2fbcebe60047ab9d338cbb6db8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -41828,8 +41828,8 @@ Transform:
   m_GameObject: {fileID: 1980854315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.309608, y: -19.282957, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 3}
+  m_LocalPosition: {x: -22.309608, y: -19.24, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1569251293}
@@ -41851,9 +41851,11 @@ MonoBehaviour:
   damage: 1
   attackPoint: {fileID: 1569251293}
   weaponRange: 1
+  knockbackForce: 10
+  stunTime: 0
   playerlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
 --- !u!95 &1980854321
 Animator:
   serializedVersion: 7
@@ -41896,6 +41898,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  maxHealth: 3
 --- !u!58 &1980854323
 CircleCollider2D:
   m_ObjectHideFlags: 0

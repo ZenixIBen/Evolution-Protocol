@@ -11,6 +11,8 @@ public class Enemy_Movement : MonoBehaviour
     public float playerDetectRange = 5;
     public Transform detectionPoint;
     public LayerMask playerLayer;
+    public int maxHealth = 3;
+    private int currentHealth;
 
     private float attackCooldownTimer;
     private int facingDirection = -2; // 2 for right, -2 for left
@@ -25,6 +27,7 @@ public class Enemy_Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        currentHealth = maxHealth;
         ChangeState(EnemyState.Idle);
 
     }
@@ -51,7 +54,10 @@ public class Enemy_Movement : MonoBehaviour
 
     void Chase()
     {
-
+        if (Player == null)
+        {
+            return;
+        }
         if ((Player.position.x > transform.position.x && facingDirection == -2) ||
             (Player.position.x < transform.position.x && facingDirection == 2))
         {
@@ -71,6 +77,11 @@ public class Enemy_Movement : MonoBehaviour
     //if player enters Enemy detection range
     private void CheckForPlayer()
     {
+        if (detectionPoint == null)
+        {
+            return;
+        }
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(detectionPoint.position, playerDetectRange, playerLayer);
 
         if (hits.Length > 0)
@@ -84,7 +95,7 @@ public class Enemy_Movement : MonoBehaviour
                 ChangeState(EnemyState.Attacking);
                 GetComponent<Enemy_Combat>().Attack();
             }
-            if (Vector2.Distance(transform.position, Player.position) > attackRange)
+            if (Vector2.Distance(transform.position, Player.position) > attackRange && enemyState != EnemyState.Attacking)
             {
                 ChangeState(EnemyState.Chasing);
             }
@@ -92,8 +103,25 @@ public class Enemy_Movement : MonoBehaviour
 
         else
         {
-            rb.linearVelocity = Vector2.zero;
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
             ChangeState(EnemyState.Idle);
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (damage <= 0)
+        {
+            return;
+        }
+
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
         }
     }
 
