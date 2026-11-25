@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player_bow : MonoBehaviour
 {
@@ -10,36 +11,44 @@ public class Player_bow : MonoBehaviour
     public float shootTimer;
     public int damage = 2;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
         shootTimer -= Time.deltaTime;
+    }
 
+    public void OnMove(InputValue value)
+    {
+        Vector2 movement = value.Get<Vector2>();
+        if (movement != Vector2.zero)
+        {
+            aimDirection = movement.normalized;
+        }
+    }
 
-        handleAiming();
-
-        if (Input.GetButtonDown("Shoot") && shootTimer <= 0 )
+    public void OnShoot(InputValue value)
+    {
+        if (value.isPressed && shootTimer <= 0)
         {
             Shoot();
         }
     }
 
-    private void handleAiming()
-    {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        if (horizontal != 0 || vertical != 0)
-        {
-            aimDirection = new Vector2(horizontal, vertical).normalized;
-        }
-    }
     public void Shoot()
     {
         Arrow arrow = Instantiate(ArrowPrefab, LaunchPoint.position, Quaternion.identity).GetComponent<Arrow>();
         arrow.direction = aimDirection;
         arrow.damage = damage;
+
+        Collider2D[] playerColliders = GetComponentsInChildren<Collider2D>();
+        Collider2D[] arrowColliders = arrow.GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D playerCollider in playerColliders)
+        {
+            foreach (Collider2D arrowCollider in arrowColliders)
+            {
+                Physics2D.IgnoreCollision(playerCollider, arrowCollider);
+            }
+        }
+
         shootTimer = shootCooldown;
     }
 }

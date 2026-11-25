@@ -88,16 +88,33 @@ public class Enemy_Movement : MonoBehaviour
         {
             Player = hits[0].transform;
 
-            //checking if player is in range AND cooldown is ready
-            if (Vector2.Distance(transform.position, Player.position) < attackRange && attackCooldownTimer <= 0)
+            if (Vector2.Distance(transform.position, Player.position) <= attackRange)
             {
-                attackCooldownTimer = attackCooldown;
-                ChangeState(EnemyState.Attacking);
-                GetComponent<Enemy_Combat>().Attack();
+                if (enemyState != EnemyState.Attacking)
+                {
+                    ChangeState(EnemyState.Attacking);
+                }
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector2.zero;
+                }
+
+                if (attackCooldownTimer <= 0)
+                {
+                    attackCooldownTimer = attackCooldown;
+                    Enemy_Combat combat = GetComponent<Enemy_Combat>();
+                    if (combat != null)
+                    {
+                        combat.Attack();
+                    }
+                }
             }
-            if (Vector2.Distance(transform.position, Player.position) > attackRange && enemyState != EnemyState.Attacking)
+            else
             {
-                ChangeState(EnemyState.Chasing);
+                if (enemyState != EnemyState.Chasing)
+                {
+                    ChangeState(EnemyState.Chasing);
+                }
             }
         }
 

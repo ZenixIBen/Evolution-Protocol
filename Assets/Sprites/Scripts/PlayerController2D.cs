@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
 
     public int facingDirection = 1; // 1 for right, -1 for left
     public string attackTrigger = "Attack";
+    public float attackRange = 0.75f;
+    public float attackOffset = 0.5f;
 
     public Rigidbody2D rb;
     public Animator anim;
@@ -23,9 +25,32 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAttack(InputValue value)
     {
-        if (value.isPressed && anim != null)
+        if (!value.isPressed)
+        {
+            return;
+        }
+
+        if (anim != null)
         {
             anim.SetTrigger(attackTrigger);
+        }
+
+        if (StatsManager.Instance == null || StatsManager.Instance.damage <= 0)
+        {
+            return;
+        }
+
+        Vector2 attackPosition = (Vector2)transform.position
+            + Vector2.right * facingDirection * attackOffset;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPosition, attackRange);
+        foreach (Collider2D hit in hits)
+        {
+            Enemy_Movement enemy = hit.GetComponentInParent<Enemy_Movement>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(StatsManager.Instance.damage);
+                break;
+            }
         }
     }
 
